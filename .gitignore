@@ -1,32 +1,85 @@
-# Prerequisites
-*.d
+# =========================
+# OS-Specific Ignorables
+# =========================
+.DS_Store
+Thumbs.db
+ehthumbs.db
+desktop.ini
 
-# Compiled Object files
-*.slo
-*.lo
-*.o
+# =========================
+# Windows Crap
+# =========================
+$RECYCLE.BIN/
+*.lnk
+
+# =========================
+# Visual Studio / MSBuild
+# =========================
+*.sln
+*.suo
+*.user
+*.userosscache
+*.sdf
+*.cache
+*.VC.db
+*.VC.opendb
+*.ncb
+*.log
+*.tlog
+*.v12.suo
+*.vcxproj*
+*.pdb
+*.idb
+*.ipch
+*.opensdf
+.vs/
+
+# Build output directories
+[Bb]uild*/
+[Rr]elease*/
+[Dd]ebug*/
+x64/
+x86/
 *.obj
-
-# Precompiled Headers
-*.gch
-*.pch
-
-# Compiled Dynamic libraries
-*.so
-*.dylib
-*.dll
-
-# Fortran module files
-*.mod
-*.smod
-
-# Compiled Static libraries
-*.lai
-*.la
-*.a
-*.lib
-
-# Executables
 *.exe
-*.out
-*.app
+*.dll
+*.lib
+*.exp
+*.iobj
+*.ipdb
+*.rsp
+
+# =========================
+# CMake files
+# =========================
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+Makefile
+install_manifest.txt
+
+# =========================
+# SFML Temporary/Cache Files (if any generated)
+# =========================
+*.sfml.cache
+*.sfml.tmp
+
+# =========================
+# VS Code & Other IDEs
+# =========================
+.vscode/
+.idea/
+*.code-workspace
+
+# =========================
+# Personal/Temporary
+# =========================
+*.tmp
+*.bak
+*.swp
+*.psd
+*.db
+*.data
+*.log
+*.old
+*.orig
