@@ -13,14 +13,13 @@ int main()
     Map map;
 
     sf::Texture shrine = Loader::LoadTexture("Textures/Shrine.png");
-    sf::Sprite shrineSprite;
-    shrineSprite.setTexture(shrine);
+    sf::Sprite shrineSprite(shrine);
     shrineSprite.setPosition(sf::Vector2f(900, 200));
     shrineSprite.setScale(sf::Vector2f(3,3));
 
     // INIT FAZE -----------------------------------------------------------------------
 
-    sf::RenderWindow window(sf::VideoMode(1920, 1080), "Unfinished project");
+    sf::RenderWindow window(sf::VideoMode(sf::Vector2u(1920, 1080), 32U), "Unfinished project");
     sf::Clock clock;
 
     Player player;
@@ -49,13 +48,12 @@ int main()
         float dt = clock.restart().asSeconds();
 
         // UPDATE FAZE -----------------------------------------------------------------------
-        sf::Event event;
-        while (window.pollEvent(event))
+
+        while (const std::optional event = window.pollEvent())
         {
-            if (event.type == sf::Event::Closed)
-            {
+            // "close requested" event: we close the window
+            if (event->is<sf::Event::Closed>())
                 window.close();
-            }
         }
 
         if (enemyManger.CanSpawn(dt))

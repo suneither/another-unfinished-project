@@ -29,7 +29,7 @@ private:
 	float speed = 30;
 
 public:
-	sf::Sprite sprite;
+	sf::Sprite sprite();
 	HitBox hitbox = HitBox(HITBOX_DATA, SCALE, sf::Color::Green);
 	int hp = 100;
 

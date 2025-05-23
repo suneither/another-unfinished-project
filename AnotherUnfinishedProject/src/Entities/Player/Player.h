@@ -49,7 +49,7 @@ private:
 	int idleTextureIndex = 0;
 
 public:
-	sf::Sprite sprite;
+	sf::Sprite sprite();
 	HitBox hitbox = HitBox(HITBOX_DATA, SCALE, sf::Color::Green);
 	HitBox weaponHitbox = HitBox(WEAPON_HITBOX_DATA, SCALE, sf::Color::Red);
 public:

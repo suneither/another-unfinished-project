@@ -22,7 +22,19 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 set(SFML_DIR "$ENV{SFML_ROOT_32bit}")
 
 # Project start location file 
-add_executable (AnotherUnfinishedProject "src/Main.cpp")
+add_executable (AnotherUnfinishedProject 
+"src/Main.cpp"
+"src/AnimationState.cpp"
+
+"src/Entities/HitBox.cpp"
+"src/Entities/Mobs/Orc.cpp"
+"src/Entities/Player/Player.cpp"
+
+"src/Helpers/Loader.cpp"
+"src/Helpers/Math.cpp"
+
+"src/Managers/EnemyManager.cpp"
+)
 
 # including header files so Compiler would not cry over non existant classes
 target_include_directories(AnotherUnfinishedProject PUBLIC "${SFML_DIR}/include")
