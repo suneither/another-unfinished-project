@@ -31,7 +31,7 @@ private:
 	sf::Vector2f weaponHitBoxOffset = sf::Vector2f(5, 20);
 	HitBoxData WEAPON_HITBOX_DATA = { {weaponHitBoxSize}, {weaponHitBoxOffset} };
 	
-	int SCALE = 3;
+	float SCALE = 3.0f;
 
 	AnimationState animationState = idle;
 	float timeSinceLastTextureChange = 0;
@@ -49,7 +49,7 @@ private:
 	int idleTextureIndex = 0;
 
 public:
-	sf::Sprite sprite();
+	sf::Sprite* sprite;
 	HitBox hitbox = HitBox(HITBOX_DATA, SCALE, sf::Color::Green);
 	HitBox weaponHitbox = HitBox(WEAPON_HITBOX_DATA, SCALE, sf::Color::Red);
 public:

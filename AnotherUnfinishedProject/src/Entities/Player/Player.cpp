@@ -4,16 +4,16 @@
 
 void Player::Initialize()
 {
-    sprite.setScale(SCALE, SCALE);
-    sprite.setOrigin(sf::Vector2f(textureSize.x / 2, textureSize.y / 2));
-    sprite.setPosition(660, 540);
+    sprite->setScale({ SCALE, SCALE });
+    sprite->setOrigin({ textureSize.x / 2, textureSize.y / 2 });
+    sprite->setPosition({ 660, 540 });
 }
 
 void loadTextures(const char* path, sf::Texture* textures, int textureWidth, int textureHeight, int textureCount)
 {
     sf::Texture tempTexture;
     for (int i = 0; i < textureCount; i++) {
-        if (!tempTexture.loadFromFile(path, sf::IntRect(textureWidth * i, 0, textureWidth, textureHeight)))
+        if (!tempTexture.loadFromFile(path, false, sf::IntRect({ textureWidth * i, 0 }, { textureWidth, textureHeight })))
         {
             std::cout << "Failed to load texture with path: " << path << std::endl;
         }
@@ -27,7 +27,7 @@ void Player::Load()
     loadTextures("Textures/Soldier-Idle.png", idleTextures, textureSize.x, textureSize.y, 6);
     loadTextures("Textures/Soldier-Walk.png", walkTextures, textureSize.x, textureSize.y, 8);
     loadTextures("Textures/Soldier-Attack01.png", normalAttackTextures, textureSize.x, textureSize.y, 6);
-    sprite.setTexture(idleTextures[0]);
+    sprite->setTexture(idleTextures[0]);
 }
 
 void Player::UpdateMovement(float dt)
@@ -37,25 +37,25 @@ void Player::UpdateMovement(float dt)
 
     animationState = idle;
 
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W)) {
         animationState = walking;
-        sprite.setPosition(sprite.getPosition() + sf::Vector2f(0, -dt * movementSpeed));
+        sprite->setPosition(sprite->getPosition() + sf::Vector2f(0, -dt * movementSpeed));
     }
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A)) {
         animationState = walking;
-        sprite.setScale(-SCALE, SCALE);
+        sprite->setScale({ -SCALE, SCALE });
         movementDir = Dir::LEFT;
-        sprite.setPosition(sprite.getPosition() + sf::Vector2f(-dt * movementSpeed, 0));
+        sprite->setPosition(sprite->getPosition() + sf::Vector2f(-dt * movementSpeed, 0));
     }
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S)) {
         animationState = walking;
-        sprite.setPosition(sprite.getPosition() + sf::Vector2f(0, dt * movementSpeed));
+        sprite->setPosition(sprite->getPosition() + sf::Vector2f(0, dt * movementSpeed));
     }
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D)) {
         animationState = walking;
-        sprite.setScale(SCALE, SCALE);
+        sprite->setScale({ SCALE, SCALE });
         movementDir = Dir::RIGHT;
-        sprite.setPosition(sprite.getPosition() + sf::Vector2f(dt * movementSpeed, 0));
+        sprite->setPosition(sprite->getPosition() + sf::Vector2f(dt * movementSpeed, 0));
     }
 }
 
@@ -65,14 +65,14 @@ void Player::UpdateHitBoxes(float dt)
     {
         case RIGHT:
         {
-            weaponHitbox.UpdatePosition(sprite.getPosition(), sf::Vector2f(0, 0));
-            hitbox.UpdatePosition(sprite.getPosition(), sf::Vector2f(0, 0));
+            weaponHitbox.UpdatePosition(sprite->getPosition(), sf::Vector2f(0, 0));
+            hitbox.UpdatePosition(sprite->getPosition(), sf::Vector2f(0, 0));
             break;
         }
         case LEFT:
         {
-            weaponHitbox.UpdatePosition(sprite.getPosition(), sf::Vector2f(50, 0));
-            hitbox.UpdatePosition(sprite.getPosition(), sf::Vector2f(0, 0));
+            weaponHitbox.UpdatePosition(sprite->getPosition(), sf::Vector2f(50, 0));
+            hitbox.UpdatePosition(sprite->getPosition(), sf::Vector2f(0, 0));
             break;
         }
     }
@@ -104,7 +104,7 @@ void Player::UpdateMovementAnimation(float dt)
             movementTextureIndex++;
         }
 
-        sprite.setTexture(walkTextures[movementTextureIndex]);
+        sprite->setTexture(walkTextures[movementTextureIndex]);
     }
 }
 
@@ -123,7 +123,7 @@ void Player::UpdateIdleAnimation(float dt)
         {
             idleTextureIndex++;
         }
-        sprite.setTexture(idleTextures[idleTextureIndex]);
+        sprite->setTexture(idleTextures[idleTextureIndex]);
     }
 
     
@@ -145,7 +145,7 @@ void Player::UpdateNormalAttackAnimation(float dt)
         {
             normalAttackTextureIndex++;
         }
-        sprite.setTexture(normalAttackTextures[normalAttackTextureIndex]);
+        sprite->setTexture(normalAttackTextures[normalAttackTextureIndex]);
 
 
         if (normalAttackTextureIndex == 3)
@@ -194,7 +194,7 @@ void Player::Update(float dt)
 
 void Player::Draw(sf::RenderWindow& window)
 {
-    window.draw(sprite);
+    window.draw(*sprite);
     window.draw(hitbox.visual);
     window.draw(weaponHitbox.visual);
 }

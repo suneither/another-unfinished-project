@@ -4,14 +4,14 @@
 
 void Orc::Initialize()
 {
-	sprite.setOrigin(textureSize.x / 2, textureSize.y / 2);
-	sprite.setScale(SCALE, SCALE);
-	sprite.setPosition(1160, 540);
+	sprite->setOrigin(sf::Vector2f(textureSize.x / 2, textureSize.y / 2));
+	sprite->setScale(sf::Vector2f(SCALE, SCALE));
+	sprite->setPosition(sf::Vector2f(1160, 540));
 }
 
 void Orc::SetPosition(sf::Vector2f pos)
 {
-	sprite.setPosition(pos);
+	sprite->setPosition(pos);
 }
 
 
@@ -20,7 +20,7 @@ void Orc::LoadTexture(const char* path, sf::Texture* textures, int textureCount)
 	sf::Texture tempTexture;
 	for (int i = 0; i < textureCount; i++)
 	{
-		if (!tempTexture.loadFromFile(path, sf::IntRect(textureSize.x * i, 0, textureSize.x, textureSize.y)))
+		if (!tempTexture.loadFromFile(path, false, sf::IntRect({ textureSize.x * i, 0 }, { textureSize.x, textureSize.y })))
 		{
 			std::cout << "Failed to load texture with path:" << path << std::endl;
 		}
@@ -32,7 +32,7 @@ void Orc::Load()
 {
 	LoadTexture("Textures/Orc-Idle.png", idleTextures, 6);
 	LoadTexture("Textures/Orc-Walk.png", walkTextures, 8);
-	sprite.setTexture(idleTextures[0]);
+	sprite->setTexture(idleTextures[0]);
 }
 
 void Orc::UpdateAnimations()
@@ -49,7 +49,7 @@ void Orc::UpdateAnimations()
 			currentTextureIndex++;
 		}
 
-		sprite.setTexture(idleTextures[currentTextureIndex]);
+		sprite->setTexture(idleTextures[currentTextureIndex]);
 	}
 
 	if (timeSinceLastTextureChange >= 0.2f && !isIdle)
@@ -64,23 +64,23 @@ void Orc::UpdateAnimations()
 			currentTextureIndex++;
 		}
 
-		sprite.setTexture(walkTextures[currentTextureIndex]);
+		sprite->setTexture(walkTextures[currentTextureIndex]);
 	}
 }
 
 void Orc::UpdateMovement(float dt)
 {
-	sf::Vector2f direction = m_Player->sprite.getPosition() - sprite.getPosition();
+	sf::Vector2f direction = m_Player->sprite->getPosition() - sprite->getPosition();
 	sf::Vector2f normalizedVector = Math::NormalizeVector(direction);
 
 	isIdle = false;
 	if (normalizedVector.x >= 0)
-		sprite.setScale(SCALE, SCALE);
+		sprite->setScale(sf::Vector2f(SCALE, SCALE));
 	else
-		sprite.setScale(-SCALE, SCALE);
+		sprite->setScale(sf::Vector2f(-SCALE, SCALE));
 
-	sprite.setPosition(sprite.getPosition() + (normalizedVector * dt * speed));
-	hitbox.UpdatePosition(sprite.getPosition(), sf::Vector2f(0,0));
+	sprite->setPosition(sprite->getPosition() + (normalizedVector * dt * speed));
+	hitbox.UpdatePosition(sprite->getPosition(), sf::Vector2f(0,0));
 }
 
 void Orc::Update(float dt)
@@ -93,7 +93,7 @@ void Orc::Update(float dt)
 
 void Orc::Draw(sf::RenderWindow& window)
 {
-	window.draw(sprite);
+	window.draw(*sprite);
 	window.draw(hitbox.visual);
 }
 

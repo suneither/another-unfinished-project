@@ -15,10 +15,10 @@ private:
 
 	sf::Vector2f hitBoxSize = sf::Vector2f(7, 14);
 	sf::Vector2f hitBoxOffset = sf::Vector2f(8, 20);
-	sf::Vector2f textureSize = sf::Vector2f(100, 100);
+	sf::Vector2i textureSize = sf::Vector2i(100, 100);
 
 	HitBoxData HITBOX_DATA = { {hitBoxSize}, {hitBoxOffset} };
-	int SCALE = 3;
+	float SCALE = 3.0f;
 
 	float timeSinceLastTextureChange = 0;
 	int currentTextureIndex = 0;
@@ -29,7 +29,7 @@ private:
 	float speed = 30;
 
 public:
-	sf::Sprite sprite();
+	sf::Sprite* sprite;
 	HitBox hitbox = HitBox(HITBOX_DATA, SCALE, sf::Color::Green);
 	int hp = 100;
 
