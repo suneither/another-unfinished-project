@@ -1,33 +1,57 @@
+message(STATUS "CMAKE_BUILD_TYPE: ${CMAKE_BUILD_TYPE}")
+message(STATUS "CMAKE_GENERATOR: ${CMAKE_GENERATOR}")
+message(STATUS "CMAKE_GENERATOR_PLATFORM: ${CMAKE_GENERATOR_PLATFORM}")
+message(STATUS "CMAKE_SYSTEM_PROCESSOR: ${CMAKE_SYSTEM_PROCESSOR}")
+
+
+# Define minimum required CMake version
 cmake_minimum_required(VERSION 4.0.2)
+
+# Setting project name
 project(AnotherUnfinishedProject)
 
-set(CMAKE_CXX_STANDARD 20)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
+# Setting target architecture
+set(CMAKE_GENERATOR_PLATFORM Win32)
+message(STATUS "Target platform: ${CMAKE_GENERATOR_PLATFORM}")
 
-# Path to SFML (64-bit version!)
-set(SFML_ROOT $ENV{SFML_ROOT_x64})
-set(SFML_INCLUDE_DIR "${SFML_ROOT}/include")
-set(SFML_LIB_DIR "${SFML_ROOT}/lib")
+# setting c++ required version
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED True)
 
-# Source files
-file(GLOB_RECURSE SOURCES "src/*.cpp")
+# setting environmental variable as SFML_DIR for easier usage inside this file
+set(SFML_DIR "$ENV{SFML_ROOT_32bit}")
 
-# Executable
-add_executable(${PROJECT_NAME} ${SOURCES})
+# Project start location file 
+add_executable (AnotherUnfinishedProject "src/Main.cpp")
 
-# Include + link manually
-target_include_directories(${PROJECT_NAME} PUBLIC ${SFML_INCLUDE_DIR})
-link_directories(${SFML_LIB_DIR})
+# including header files so Compiler would not cry over non existant classes
+target_include_directories(AnotherUnfinishedProject PUBLIC "${SFML_DIR}/include")
 
-# Define static linking
-target_compile_definitions(${PROJECT_NAME} PUBLIC SFML_STATIC)
+# message example when running CMake build command
+message(STATUS "SFML_DIR from env: ${SFML_DIR}/include/SFML")
 
-# Link SFML libs manually (in the right order)
-target_link_libraries(${PROJECT_NAME}
-    sfml-graphics-s
-    sfml-window-s
-    sfml-system-s
+# linking STATIC libraries folder
+target_link_directories(AnotherUnfinishedProject PUBLIC "${SFML_DIR}/lib")
+
+# defining STATIC libraries usage as default
+add_definitions(-DSFML_STATIC)
+
+# linking actual STATIC libraries
+target_link_libraries(AnotherUnfinishedProject PRIVATE
+    debug sfml-system-s-d
+    debug sfml-graphics-s-d
+    debug sfml-window-s-d
+    debug sfml-network-s-d
+
+    optimized sfml-system-s
+    optimized sfml-graphics-s
+    optimized sfml-window-s
+    optimized sfml-network-s
+
+    debug opengl32
+    debug freetype
+    debug winmm
+    debug gdi32
+    debug ws2_32
 )
 
-# Optional: multithreaded static runtime (if you want to ditch DLLs altogether)
-# set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
